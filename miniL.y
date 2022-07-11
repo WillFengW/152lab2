@@ -77,8 +77,7 @@ statement:        var ASSIGN expression { printf("statement -> var ASSIGN expres
         |         RETURN expression { printf("statement -> RETURN expression\n"); }
         ;
 
-vars:             /*empty*/ { printf("vars -> epsilon\n"); }
-        |         var { printf("vars -> var\n"); }
+vars:             var { printf("vars -> var\n"); }
         |         var COMMA vars { printf("vars -> var COMMA vars\n"); }
         ;
 
@@ -87,26 +86,26 @@ bool_expr:        relation_and_expr { printf("bool_expr -> relation_and_expr\n")
         ;
 
 relation_and_expr:	  relation_expr { printf("relation_and_expr -> relation_expr\n"); }
-        |             relation_and_expr AND relation_expr { printf("relation_and_expr -> relation_and_expr AND relation_expr\n"); }
+        |                 relation_and_expr AND relation_expr { printf("relation_and_expr -> relation_and_expr AND relation_expr\n"); }
         ;
 
 relation_expr:	      expression comp expression { printf("relation_expr -> expression comp expression\n"); }
-		    |             NOT expression comp expression { printf("relation_expr -> NOT expression comp expression\n"); }
-	    	|             TRUE { printf("relation_expr -> TRUE\n"); }
-	    	|             NOT TRUE { printf("relation_expr -> NOT TRUE\n"); }
-	    	|             FALSE { printf("relation_expr -> FALSE\n"); }
-	    	|             NOT FALSE { printf("relation_expr -> NOT FALSE\n"); }
-	    	|             L_PAREN bool_expr R_PAREN { printf("relation_expr -> L_PAREN bool_expr R_PAREN\n"); }
+	|             NOT expression comp expression { printf("relation_expr -> NOT expression comp expression\n"); }
+        |             TRUE { printf("relation_expr -> TRUE\n"); }
+	|             NOT TRUE { printf("relation_expr -> NOT TRUE\n"); }
+	|             FALSE { printf("relation_expr -> FALSE\n"); }
+	|             NOT FALSE { printf("relation_expr -> NOT FALSE\n"); }
+	|             L_PAREN bool_expr R_PAREN { printf("relation_expr -> L_PAREN bool_expr R_PAREN\n"); }
         |             NOT L_PAREN bool_expr R_PAREN { printf("relation_expr -> NOT L_PAREN bool_expr R_PAREN\n"); }
-	    	;
+	;
 
-comp:		              EQ { printf("comp -> EQ\n"); }
-		    |             NEQ { printf("comp -> NEQ\n"); }
-		    |             LT { printf("comp -> LT\n"); }
-		    |             GT { printf("comp -> GT\n"); }
-		    |             LTE { printf("comp -> LTE\n"); }
-		    |             GTE { printf("comp -> GTE\n"); }
-	    	;
+comp:		      EQ { printf("comp -> EQ\n"); }
+	|             NEQ { printf("comp -> NEQ\n"); }
+	|             LT { printf("comp -> LT\n"); }
+	|             GT { printf("comp -> GT\n"); }
+	|             LTE { printf("comp -> LTE\n"); }
+	|             GTE { printf("comp -> GTE\n"); }
+	;
 
 expression:           multiplicative_expr { printf("expression -> multiplicative_expr\n"); }
         |             expression ADD multiplicative_expr { printf("expression -> expression ADD multiplicative_expr\n"); }
@@ -114,28 +113,28 @@ expression:           multiplicative_expr { printf("expression -> multiplicative
         ;
 
 multiplicative_expr:	  term  { printf("multiplicative_expr -> term\n"); }
-        |               multiplicative_expr MULT term { printf("multiplicative_expr -> multiplicative_expr MULT term\n"); }
-        |               multiplicative_expr DIV term { printf("multiplicative_expr -> multiplicative_expr DIV term\n"); }
-        |               multiplicative_expr MOD term { printf("multiplicative_expr -> multiplicative_expr MOD term\n"); }
+        |                 multiplicative_expr MULT term { printf("multiplicative_expr -> multiplicative_expr MULT term\n"); }
+        |                 multiplicative_expr DIV term { printf("multiplicative_expr -> multiplicative_expr DIV term\n"); }
+        |                 multiplicative_expr MOD term { printf("multiplicative_expr -> multiplicative_expr MOD term\n"); }
         ;
 
-term:		                var { printf("term -> var\n"); }
-		    |               SUB var { printf("term -> SUB var\n"); }
-		    |               NUMBER { printf("term -> NUMBER %d\n", $1); }
-		    |               SUB NUMBER { printf("term -> SUB NUMBER %d\n", $2); }
-		    |               L_PAREN expression R_PAREN { printf("term -> L_PAREN expression R_PAREN\n"); }
-		    |               SUB L_PAREN expression R_PAREN { printf("term -> SUB L_PAREN expression R_PAREN\n"); }
-	    	|               IDENT L_PAREN R_PAREN { printf("term -> IDENT %s L_PAREN R_PAREN\n", $1); }
-		    |               IDENT L_PAREN expressions R_PAREN { printf("term -> IDENT %s L_PAREN expressions R_PAREN\n", $1); }
-		    ;
+term:		        var { printf("term -> var\n"); }
+	|               SUB var { printf("term -> SUB var\n"); }
+	|               NUMBER { printf("term -> NUMBER %d\n", $1); }
+	|               SUB NUMBER { printf("term -> SUB NUMBER %d\n", $2); }
+	|               L_PAREN expression R_PAREN { printf("term -> L_PAREN expression R_PAREN\n"); }
+	|               SUB L_PAREN expression R_PAREN { printf("term -> SUB L_PAREN expression R_PAREN\n"); }
+        |               IDENT L_PAREN R_PAREN { printf("term -> IDENT %s L_PAREN R_PAREN\n", $1); }
+	|               IDENT L_PAREN expressions R_PAREN { printf("term -> IDENT %s L_PAREN expressions R_PAREN\n", $1); }
+	;
 
 expressions:            expression { printf("expressions -> expression"); }
         |               expressions COMMA expression { printf("expressions -> expressions COMMA expression"); }
         ;
 
-var:		                IDENT { printf("var -> IDENT %s\n", $1); }
-		    |               IDENT L_SQUARE_BRACKET expression R_SQUARE_BRACKET { printf("var -> IDENT %s L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n", $1); }
-		    ;
+var:		        ident { printf("var -> ident\n"); }
+	|               ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET { printf("var -> ident L_SQUARE_BRACKET expression R_SQUARE_BRACKET\n"); }
+	;
 
 %% 
 

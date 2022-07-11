@@ -1,4 +1,4 @@
-   /* cs152-miniL phase1 */
+   /* cs152-miniL phase2 */
    
 %{   
    #include "y.tab.h"
